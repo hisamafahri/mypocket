@@ -1,0 +1,63 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "root": true,
+  "extends": [
+    "airbnb",
+    "prettier",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "prettier",
+    "react"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "react-hooks/rules-of-hooks": "off",
+    "import/extensions": "off",
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "prettier/prettier": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/forbid-prop-types": "off",
+    "@next/next/no-html-link-for-pages": "off",
+    "react/require-default-props": [
+      "error",
+      {
+        "ignoreFunctionalComponents": true
+      }
+    ]
+  }
+}
