@@ -14,7 +14,9 @@ const SignInForm = () => {
       postGetRequestToken({ body: opts.body }),
     onSuccess: (data) => {
       router.push(
-        `https://getpocket.com/auth/authorize?request_token=${data.code}&redirect_uri=${WEB_ENV.NEXT_PUBLIC_APP_HOST}`,
+        `https://getpocket.com/auth/authorize?request_token=${
+          data.code
+        }&redirect_uri=${`${WEB_ENV.NEXT_PUBLIC_APP_HOST}/auth/callback?request_token=${data.code}`}`,
       );
     },
   });
@@ -27,7 +29,7 @@ const SignInForm = () => {
           postGetRequestTokenMutation.mutate({
             body: {
               consumer_key: WEB_ENV.NEXT_PUBLIC_CONSUMER_KEY,
-              redirect_uri: WEB_ENV.NEXT_PUBLIC_APP_HOST,
+              redirect_uri: `${WEB_ENV.NEXT_PUBLIC_APP_HOST}/auth/callback`,
             },
           })
         }

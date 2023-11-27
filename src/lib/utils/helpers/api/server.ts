@@ -7,7 +7,6 @@ export const apiServer = async <T>(opts: MethodsParams): Promise<T> => {
     ...opts.options,
     headers: {
       ...opts.options?.headers,
-      Host: "getpocket.com",
       "Content-Type": "application/json; charset=UTF-8",
       "X-Accept": "application/json",
     },

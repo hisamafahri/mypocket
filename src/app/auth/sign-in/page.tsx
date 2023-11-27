@@ -1,6 +1,8 @@
+import SignInForm from "./_components/signInForm";
+
 const SignIn = () => (
   <main>
-    <p>Sign In</p>
+    <SignInForm />
   </main>
 );
 
