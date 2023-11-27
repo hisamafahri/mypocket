@@ -1,4 +1,6 @@
 import { intervalToDuration } from "date-fns";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export const getDurationText = (opts: {
   start: string;
@@ -16,3 +18,5 @@ export const getDurationText = (opts: {
 
 export const weightFormatter = (number: number) =>
   `${number.toLocaleString("en-US")}`;
+
+export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));

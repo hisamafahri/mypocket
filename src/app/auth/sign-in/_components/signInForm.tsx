@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
@@ -5,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { GetRequestTokenBody } from "../../../../lib/schemas/api/authorization";
 import { postGetRequestToken } from "../../../../lib/services/api/authorization/client";
 import WEB_ENV from "../../../../lib/utils/helpers/env";
+import { Button } from "../../../../components/ui/button";
+import { Icons } from "../../../../components/ui/icons";
 
 const SignInForm = () => {
   const router = useRouter();
@@ -13,18 +17,19 @@ const SignInForm = () => {
     mutationFn: async (opts: { body: GetRequestTokenBody }) =>
       postGetRequestToken({ body: opts.body }),
     onSuccess: (data) => {
-      router.push(
-        `https://getpocket.com/auth/authorize?request_token=${
-          data.code
-        }&redirect_uri=${`${WEB_ENV.NEXT_PUBLIC_APP_HOST}/auth/callback?request_token=${data.code}`}`,
-      );
+      const endpoint = `${WEB_ENV.NEXT_PUBLIC_POCKET_API_BASE_URL
+        }/auth/authorize?request_token=${data.code
+        }&redirect_uri=${`${WEB_ENV.NEXT_PUBLIC_APP_HOST}/auth/callback?request_token=${data.code}`}`;
+      router.push(endpoint);
     },
   });
 
   return (
     <div>
-      <button
-        type="button"
+      <Button
+        variant="secondary"
+        disabled={postGetRequestTokenMutation.isPending ||
+          postGetRequestTokenMutation.isSuccess}
         onClick={() =>
           postGetRequestTokenMutation.mutate({
             body: {
@@ -35,7 +40,11 @@ const SignInForm = () => {
         }
       >
         Sign In
-      </button>
+        {(postGetRequestTokenMutation.isPending ||
+          postGetRequestTokenMutation.isSuccess) && (
+            <Icons.Spinner className="ml-2 h-4 w-4 animate-spin" />
+          )}
+      </Button>
     </div>
   );
 };
