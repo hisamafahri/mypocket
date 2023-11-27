@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.8.7",
+    "date-fns": "^2.30.0",
     "next": "14.0.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "^20",
