@@ -8,7 +8,7 @@ import pkg from "../../../../package.json";
 
 const SignIn = () => (
   <main>
-    <div className="w-1/3 mx-auto px-4 h-screen flex flex-col items-center justify-center space-y-8">
+    <div className="w-1/2 lg:w-1/3 mx-auto px-4 h-screen flex flex-col items-center justify-center space-y-8">
       <div className="flex items-center justify-between w-full">
         <Link href="/auth/sign-in" className="text-3xl">
           🔖

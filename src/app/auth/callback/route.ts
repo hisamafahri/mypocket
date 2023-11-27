@@ -19,19 +19,20 @@ export const GET = async (request: Request) => {
     if (!token || !token.access_token || !token.username) {
       redirect("/auth/sign-in");
     }
+    const domain = new URL(WEB_ENV.NEXT_PUBLIC_APP_HOST).hostname;
 
     cookies().set({
       name: "access_token",
       value: token.access_token,
       path: "/",
-      domain: "localhost",
+      domain,
       httpOnly: true,
     });
     cookies().set({
       name: "username",
       value: token.username,
       path: "/",
-      domain: "localhost",
+      domain,
     });
 
     redirect("/dashboard");
