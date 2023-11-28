@@ -34,6 +34,7 @@ const UserListItem = () => {
             alt="avatar"
             width={24}
             height={24}
+            className="border border-slate-200 rounded-full"
           />
         )}
         {!username ? (
