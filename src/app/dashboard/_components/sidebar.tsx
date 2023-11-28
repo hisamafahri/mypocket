@@ -3,7 +3,7 @@ import { Separator } from "../../../components/ui/separator";
 import { SectionListItem, UserListItem } from "./listItem";
 
 const Sidebar = () => (
-  <div className="w-1/4 bg-white rounded-lg border border-gray-200 p-4 space-y-4">
+  <div className="w-1/4 bg-white rounded-lg border border-gray-200 p-4 space-y-4 h-min">
     <UserListItem />
     <Separator className="w-1/2 mx-auto" />
     <div className="space-y-2">

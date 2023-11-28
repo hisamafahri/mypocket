@@ -2,11 +2,9 @@ import HomeBar from "./_components/homeBar";
 import HomeContent from "./_components/homeContent";
 
 const Dashboard = () => (
-  <main className="flex-1">
-    <div className="space-y-4">
-      <HomeBar />
-      <HomeContent />
-    </div>
+  <main className="w-3/4 h-full space-y-4">
+    <HomeBar />
+    <HomeContent />
   </main>
 );
 

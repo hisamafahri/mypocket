@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { FetchMethods, MethodsParams } from "../../../lib/utils/helpers/api";
 import { apiServer } from "../../../lib/utils/helpers/api/server";
 import WEB_ENV from "../../../lib/utils/helpers/env";
@@ -6,6 +7,7 @@ import buildUrl from "../../../lib/utils/helpers/url";
 export const handler = async (request: Request) => {
   const origin = new URL(request.url);
   const body = await request.json();
+  const accessToken = cookies().get("access_token")?.value;
   const options: MethodsParams = {
     url: buildUrl({
       url: origin.pathname,
@@ -13,7 +15,10 @@ export const handler = async (request: Request) => {
     }),
     options: {
       method: FetchMethods.POST,
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        ...body,
+        access_token: accessToken,
+      }),
     },
   };
 

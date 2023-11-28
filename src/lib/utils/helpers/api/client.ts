@@ -5,6 +5,7 @@ import logger from "../logger";
 export const apiClient = async <T>(opts: MethodsParams): Promise<T> => {
   const requestOptions: RequestInit = {
     ...opts.options,
+    // credentials: "include",
     headers: {
       ...opts.options?.headers,
       "Content-Type": "application/json",

@@ -14,10 +14,10 @@ const DashboardTemplate = async ({
   }
 
   return (
-    <main className="bg-gray-50 h-screen">
-      <div className="w-full md:w-5/6 lg:w-2/3 mx-auto h-screen flex items-start justify-center">
-        <div className="mt-16 w-full flex gap-6">
-          <SearchRecordDialog />
+    <main className="bg-gray-50 h-screen flex overflow-hidden">
+      <div className="w-fulll h-full md:w-5/6 lg:w-2/3 mx-auto flex items-start justify-center">
+        <SearchRecordDialog />
+        <div className="pt-16 w-full h-full flex gap-6">
           <Sidebar />
           {children}
         </div>

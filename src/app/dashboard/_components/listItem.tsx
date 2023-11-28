@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { getCookie } from "cookies-next";
 import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Avatar from "boring-avatars";
 import WEB_ENV from "../../../lib/utils/helpers/env";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { Icons } from "../../../components/ui/icons";
@@ -29,18 +29,19 @@ const UserListItem = () => {
         {!username ? (
           <Skeleton className="rounded-full h-6 w-6" />
         ) : (
-          <Image
-            src={`https://source.boringavatars.com/marble/24/${username}?colors=333333,CCCCCC,496D89,B0B0B0,FFFFFF`}
-            alt="avatar"
-            width={24}
-            height={24}
-            className="border border-slate-200 rounded-full"
-          />
+          <div className="border border-slate-200 rounded-full">
+            <Avatar
+              size={24}
+              name={username}
+              variant="marble"
+              colors={["#333333", "#CCCCCC", "#496D89", "#B0B0B0", "#FFFFFF"]}
+            />
+          </div>
         )}
         {!username ? (
           <Skeleton className="rounded-full h-6 w-full" />
         ) : (
-          <p className="text-slate-600">{username}</p>
+          <p className="text-slate-600 truncate">{username}</p>
         )}
       </div>
       <Link href="/auth/callback/session/delete" className="group">
