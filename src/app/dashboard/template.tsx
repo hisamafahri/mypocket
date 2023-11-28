@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSession } from "../../lib/utils/helpers/session";
 import Sidebar from "./_components/sidebar";
-import SearchRecordDialog from "./_components/searchRecordDialog";
 
 const DashboardTemplate = async ({
   children,
@@ -16,7 +15,6 @@ const DashboardTemplate = async ({
   return (
     <main className="bg-gray-50 h-screen flex overflow-hidden">
       <div className="w-fulll h-full md:w-5/6 lg:w-2/3 mx-auto flex items-start justify-center">
-        <SearchRecordDialog />
         <div className="pt-16 w-full h-full flex gap-6">
           <Sidebar />
           {children}

@@ -2,19 +2,20 @@
 
 import { useEffect } from "react";
 import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
+  CommandDialog,
+  CommandEmpty,
 } from "../../../components/ui/command";
-import { Icons } from "../../../components/ui/icons";
 import { useStateContext } from "../../../lib/utils/providers/state";
+import { GetRecordResponseItem } from "../../../lib/schemas/api/retrieve";
 
-const SearchRecordDialog = () => {
+type SearchRecordDialogProps = {
+  data: GetRecordResponseItem[];
+};
+
+const SearchRecordDialog = ({ data }: SearchRecordDialogProps) => {
   const { state, dispatch } = useStateContext();
 
   useEffect(() => {
@@ -33,42 +34,29 @@ const SearchRecordDialog = () => {
     <CommandDialog
       open={state.searchDialog}
       onOpenChange={(e) => dispatch({ type: "SET_SEARCH_DIALOG", payload: e })}
+      filter={(value, search) => {
+        if (value.includes(search)) return 1;
+        return 0;
+      }}
     >
-      <CommandInput placeholder="Search your pocket..." />
+      <CommandInput placeholder="Discover your pocket..." />
+
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Suggestions">
-          <CommandItem>
-            <Icons.Dot className="mr-2 h-4 w-4" />
-            <span>Calendar</span>
+        {!data.length && <CommandEmpty>No results found.</CommandEmpty>}
+        {data.map((item) => (
+          <CommandItem
+            key={item.item_id}
+            className="space-x-4 w-full"
+            onSelect={() => window.open(item.given_url, "_blank")}
+          >
+            <span className="truncate">
+              {item.given_title ||
+                item.resolved_title ||
+                new URL(item.given_url).origin}
+            </span>
+            <span className="text-slate-400 truncate">{item.given_url}</span>
           </CommandItem>
-          <CommandItem>
-            <Icons.Dot className="mr-2 h-4 w-4" />
-            <span>Search Emoji</span>
-          </CommandItem>
-          <CommandItem>
-            <Icons.Dot className="mr-2 h-4 w-4" />
-            <span>Launch</span>
-          </CommandItem>
-        </CommandGroup>
-        <CommandSeparator />
-        <CommandGroup heading="Settings">
-          <CommandItem>
-            <Icons.Dot className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <CommandShortcut>⌘P</CommandShortcut>
-          </CommandItem>
-          <CommandItem>
-            <Icons.Dot className="mr-2 h-4 w-4" />
-            <span>Mail</span>
-            <CommandShortcut>⌘B</CommandShortcut>
-          </CommandItem>
-          <CommandItem>
-            <Icons.Dot className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-            <CommandShortcut>⌘S</CommandShortcut>
-          </CommandItem>
-        </CommandGroup>
+        ))}
       </CommandList>
     </CommandDialog>
   );
