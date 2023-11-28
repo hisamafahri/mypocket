@@ -1,7 +1,7 @@
 import { postGetRecords } from "../../lib/services/api/retrieve/server";
 import WEB_ENV from "../../lib/utils/helpers/env";
 import HomeBar from "./_components/homeBar";
-import HomeContent from "./_components/homeContent";
+import RecordsList from "./_components/recordsList";
 import SearchRecordDialog from "./_components/searchRecordDialog";
 
 const Dashboard = async () => {
@@ -24,7 +24,7 @@ const Dashboard = async () => {
           (a, b) => parseInt(b.time_added, 10) - parseInt(a.time_added, 10),
         )}
       />
-      <HomeContent data={data} />
+      <RecordsList data={data} />
     </main>
   );
 };
