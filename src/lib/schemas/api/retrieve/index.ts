@@ -31,6 +31,7 @@ export const getRecordsBody = z.object({
   consumer_key: z.string(),
   count: z.string().optional(),
   offset: z.string().optional(),
+  favorite: z.number().optional(),
   detailType: z.enum(["simple", "complete"]).optional(),
   state: z.enum(["unread", "archive", "all"]).optional(),
   sort: z.enum(["newest", "oldest", "title", "site"]).optional(),

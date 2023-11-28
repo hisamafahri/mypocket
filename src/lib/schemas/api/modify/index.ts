@@ -7,7 +7,7 @@ export const sendActionsBody = z.object({
   consumer_key: z.string(),
   actions: z.array(
     z.object({
-      action: z.enum(["archive", "delete", "readd"]),
+      action: z.enum(["archive", "delete", "readd", "favorite", "unfavorite"]),
       item_id: z.string(),
     }),
   ),
