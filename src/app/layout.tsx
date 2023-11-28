@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "../lib/utils/providers/query";
 import { cn } from "../lib/utils/helpers";
+import { StateProvider } from "../lib/utils/providers/state";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -21,14 +22,16 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang="en">
     <QueryProvider>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
-        {children}
-      </body>
+      <StateProvider>
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            fontSans.variable,
+          )}
+        >
+          {children}
+        </body>
+      </StateProvider>
     </QueryProvider>
   </html>
 );

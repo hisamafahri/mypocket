@@ -13,14 +13,14 @@ const Sidebar = () => (
         icon={<Icons.Home className="mr-2 w-5 h-5 text-gray-500" />}
       />
       <SectionListItem
-        title="Archive"
-        href="/dashboard/archive"
-        icon={<Icons.Archive className="mr-2 w-5 h-5 text-gray-500" />}
-      />
-      <SectionListItem
         title="My List"
         href="/dashboard/lists"
         icon={<Icons.Lists className="mr-2 w-5 h-5 text-gray-500" />}
+      />
+      <SectionListItem
+        title="Archive"
+        href="/dashboard/archive"
+        icon={<Icons.Archive className="mr-2 w-5 h-5 text-gray-500" />}
       />
     </div>
   </div>
