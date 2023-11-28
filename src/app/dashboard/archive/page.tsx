@@ -1,5 +1,4 @@
 import { postGetRecords } from "../../../lib/services/api/retrieve/server";
-import WEB_ENV from "../../../lib/utils/helpers/env";
 import RecordsList from "../_components/recordsList";
 import SearchRecordDialog from "../_components/searchRecordDialog";
 import ArchiveBar from "./_components/archiveBar";
@@ -7,7 +6,7 @@ import ArchiveBar from "./_components/archiveBar";
 const Archive = async () => {
   const data = await postGetRecords({
     body: {
-      consumer_key: WEB_ENV.NEXT_PUBLIC_CONSUMER_KEY,
+      consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
       offset: "0",
       count: "99999",
       state: "archive",

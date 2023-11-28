@@ -1,5 +1,3 @@
-import WEB_ENV from "./env";
-
 const buildUrl = (opts: {
   url: string;
   queries?: Record<string, string | number | boolean>;
@@ -7,7 +5,7 @@ const buildUrl = (opts: {
   baseUrl?: string;
 }) => {
   const url = new URL(
-    `${opts.baseUrl || WEB_ENV.NEXT_PUBLIC_APP_HOST}${opts.url}`,
+    `${opts.baseUrl || process.env.NEXT_PUBLIC_APP_HOST}${opts.url}`,
   );
 
   if (opts.queries && Object.keys(opts.queries).length > 0) {

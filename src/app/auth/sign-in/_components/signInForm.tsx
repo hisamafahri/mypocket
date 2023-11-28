@@ -6,7 +6,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { GetRequestTokenBody } from "../../../../lib/schemas/api/authorization";
 import { postGetRequestToken } from "../../../../lib/services/api/authorization/client";
-import WEB_ENV from "../../../../lib/utils/helpers/env";
 import { Button } from "../../../../components/ui/button";
 import { Icons } from "../../../../components/ui/icons";
 
@@ -17,9 +16,9 @@ const SignInForm = () => {
     mutationFn: async (opts: { body: GetRequestTokenBody }) =>
       postGetRequestToken({ body: opts.body }),
     onSuccess: (data) => {
-      const endpoint = `${WEB_ENV.NEXT_PUBLIC_POCKET_API_BASE_URL
+      const endpoint = `${process.env.NEXT_PUBLIC_POCKET_API_BASE_URL
         }/auth/authorize?request_token=${data.code
-        }&redirect_uri=${`${WEB_ENV.NEXT_PUBLIC_APP_HOST}/auth/callback?request_token=${data.code}`}`;
+        }&redirect_uri=${`${process.env.NEXT_PUBLIC_APP_HOST}/auth/callback?request_token=${data.code}`}`;
       router.push(endpoint);
     },
   });
@@ -33,8 +32,8 @@ const SignInForm = () => {
         onClick={() =>
           postGetRequestTokenMutation.mutate({
             body: {
-              consumer_key: WEB_ENV.NEXT_PUBLIC_CONSUMER_KEY,
-              redirect_uri: `${WEB_ENV.NEXT_PUBLIC_APP_HOST}/auth/callback`,
+              consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
+              redirect_uri: `${process.env.NEXT_PUBLIC_APP_HOST}/auth/callback`,
             },
           })
         }

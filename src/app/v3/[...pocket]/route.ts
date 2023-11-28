@@ -1,17 +1,16 @@
 import { cookies } from "next/headers";
 import { FetchMethods, MethodsParams } from "../../../lib/utils/helpers/api";
 import { apiServer } from "../../../lib/utils/helpers/api/server";
-import WEB_ENV from "../../../lib/utils/helpers/env";
 import buildUrl from "../../../lib/utils/helpers/url";
 
-export const handler = async (request: Request) => {
+const handler = async (request: Request) => {
   const origin = new URL(request.url);
   const body = await request.json();
   const accessToken = cookies().get("access_token")?.value;
   const options: MethodsParams = {
     url: buildUrl({
       url: origin.pathname,
-      baseUrl: WEB_ENV.NEXT_PUBLIC_POCKET_API_BASE_URL,
+      baseUrl: process.env.NEXT_PUBLIC_POCKET_API_BASE_URL,
     }),
     options: {
       method: FetchMethods.POST,
@@ -35,4 +34,5 @@ export const handler = async (request: Request) => {
   }
 };
 
+// eslint-disable-next-line import/prefer-default-export
 export { handler as POST };

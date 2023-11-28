@@ -11,7 +11,6 @@ import { Icons } from "../../../components/ui/icons";
 import { Button, buttonVariants } from "../../../components/ui/button";
 import { postSendActions } from "../../../lib/services/api/modify/client";
 import { SendActionsBody } from "../../../lib/schemas/api/modify";
-import WEB_ENV from "../../../lib/utils/helpers/env";
 import { Skeleton } from "../../../components/ui/skeleton";
 import {
   AlertDialog,
@@ -91,7 +90,7 @@ const ContentCard = ({ data, archival }: ContentCardProps) => {
               className="p-0 m-0 h-5 hover:bg-white group/action"
               onClick={() =>
                 postSendActionsMutation.mutate({
-                  consumer_key: WEB_ENV.NEXT_PUBLIC_CONSUMER_KEY,
+                  consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                   actions: [{ item_id: data.item_id, action: "readd" }],
                 })
               }
@@ -105,7 +104,7 @@ const ContentCard = ({ data, archival }: ContentCardProps) => {
               className="p-0 m-0 h-5 hover:bg-white group/action"
               onClick={() =>
                 postSendActionsMutation.mutate({
-                  consumer_key: WEB_ENV.NEXT_PUBLIC_CONSUMER_KEY,
+                  consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                   actions: [{ item_id: data.item_id, action: "archive" }],
                 })
               }
@@ -119,7 +118,7 @@ const ContentCard = ({ data, archival }: ContentCardProps) => {
               className="p-0 m-0 h-5 hover:bg-white group/action"
               onClick={() =>
                 postSendFavoriteActionsMutation.mutate({
-                  consumer_key: WEB_ENV.NEXT_PUBLIC_CONSUMER_KEY,
+                  consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                   actions: [
                     {
                       item_id: data.item_id,
@@ -159,7 +158,7 @@ const ContentCard = ({ data, archival }: ContentCardProps) => {
                   className={cn(buttonVariants({ variant: "destructive" }))}
                   onClick={() =>
                     postSendActionsMutation.mutate({
-                      consumer_key: WEB_ENV.NEXT_PUBLIC_CONSUMER_KEY,
+                      consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                       actions: [{ item_id: data.item_id, action: "delete" }],
                     })
                   }

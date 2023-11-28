@@ -5,14 +5,13 @@ import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Avatar from "boring-avatars";
-import WEB_ENV from "../../../lib/utils/helpers/env";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { Icons } from "../../../components/ui/icons";
 import { cn } from "../../../lib/utils/helpers";
 
 const UserListItem = () => {
   const [username, setUsername] = useState<string>("");
-  const url = new URL(WEB_ENV.NEXT_PUBLIC_APP_HOST);
+  const url = new URL(process.env.NEXT_PUBLIC_APP_HOST || "");
 
   useEffect(() => {
     const usernameData = getCookie("username", { domain: url.hostname });

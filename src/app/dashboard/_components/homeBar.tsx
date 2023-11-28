@@ -20,7 +20,10 @@ const HomeBar = () => {
         <div>
           <Tooltip>
             <TooltipTrigger
-              className={cn(buttonVariants({ variant: "ghost" }), "p-3 m-0")}
+              className={cn(
+                buttonVariants({ variant: "ghost" }),
+                "p-3 m-0 hidden",
+              )}
             >
               <Icons.Plus className="w-4 h-4 text-slate-500" />
             </TooltipTrigger>
