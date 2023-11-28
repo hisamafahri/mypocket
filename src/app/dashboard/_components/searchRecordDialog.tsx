@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Avatar from "boring-avatars";
 import {
   CommandInput,
   CommandItem,
@@ -49,12 +50,17 @@ const SearchRecordDialog = ({ data }: SearchRecordDialogProps) => {
             className="space-x-4 w-full"
             onSelect={() => window.open(item.given_url, "_blank")}
           >
+            <div>
+              <Avatar size={20} name={item.item_id} variant="marble" />
+            </div>
             <span className="truncate">
               {item.given_title ||
                 item.resolved_title ||
                 new URL(item.given_url).origin}
             </span>
-            <span className="text-slate-400 truncate">{item.given_url}</span>
+            <span className="text-slate-400 truncate">
+              {new URL(item.given_url).hostname}
+            </span>
           </CommandItem>
         ))}
       </CommandList>

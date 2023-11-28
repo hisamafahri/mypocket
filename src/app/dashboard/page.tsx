@@ -24,7 +24,7 @@ const Dashboard = async () => {
           (a, b) => parseInt(b.time_added, 10) - parseInt(a.time_added, 10),
         )}
       />
-      <RecordsList data={data} />
+      <RecordsList data={data} archival="archive" />
     </main>
   );
 };

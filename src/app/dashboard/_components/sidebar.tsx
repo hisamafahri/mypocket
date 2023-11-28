@@ -20,7 +20,7 @@ const Sidebar = () => (
       <SectionListItem
         title="Archive"
         href="/dashboard/archive"
-        icon={<Icons.Archive className="mr-2 w-5 h-5 text-gray-500" />}
+        icon={<Icons.ArchiveDisplay className="mr-2 w-5 h-5 text-gray-500" />}
       />
     </div>
   </div>

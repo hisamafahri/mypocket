@@ -7,9 +7,10 @@ import { GetRecordsResponse } from "../../../lib/schemas/api/retrieve";
 
 type RecordsListProps = {
   data: GetRecordsResponse;
+  archival: "archive" | "restore";
 };
 
-const RecordsList = ({ data }: RecordsListProps) => (
+const RecordsList = ({ data, archival }: RecordsListProps) => (
   <div className="bg-white rounded-lg border border-gray-200 h-full overflow-y-auto pb-24 p-4 w-full">
     {Object.entries(data.list).length ? (
       <div className="space-y-3">
@@ -21,7 +22,7 @@ const RecordsList = ({ data }: RecordsListProps) => (
           .map((record) => {
             const i = record[1];
 
-            return <ContentCard data={i} key={i.item_id} />;
+            return <ContentCard data={i} key={i.item_id} archival={archival} />;
           })}
       </div>
     ) : (

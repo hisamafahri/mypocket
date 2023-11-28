@@ -1,5 +1,7 @@
 import {
   AlertTriangle,
+  Archive,
+  ArchiveRestore,
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
@@ -14,6 +16,7 @@ import {
   LogOut,
   Plus,
   Search,
+  Trash2,
   User,
   X,
 } from "lucide-react";
@@ -22,6 +25,8 @@ type IconProps = React.HTMLAttributes<SVGElement>;
 
 // eslint-disable-next-line import/prefer-default-export
 export const Icons = {
+  Archive,
+  ArchiveRestore,
   ArrowLeft,
   ArrowRight,
   AlertTriangle,
@@ -37,9 +42,10 @@ export const Icons = {
   LogOut,
   Plus,
   Search,
+  Trash2,
   User,
   X,
-  Archive: (props: IconProps) => (
+  ArchiveDisplay: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="32"
