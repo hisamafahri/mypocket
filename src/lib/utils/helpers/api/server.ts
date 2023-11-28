@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import logger from "../logger";
 import { MethodsParams, handleResponse } from ".";
 
@@ -9,7 +10,9 @@ export const apiServer = async <T>(opts: MethodsParams): Promise<T> => {
       ...opts.options?.headers,
       "Content-Type": "application/json; charset=UTF-8",
       "X-Accept": "application/json",
+      Cookie: cookies().toString(),
     },
+    credentials: "include",
   };
   logger({ ...opts, timestamp: new Date() });
 

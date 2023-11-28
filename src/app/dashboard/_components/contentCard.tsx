@@ -16,10 +16,10 @@ type ContentCardProps = {
 
 const ContentCard = ({ data }: ContentCardProps) => (
   <div className="border hover:border-gray-300 border-t-white border-x-white border-gray-300 p-2 hover:rounded-lg hover:bg-gray-50 flex items-center justify-between group w-full">
-    <div className="-mr-4">
-      <Avatar size={36} name={data.item_id} variant="marble" />
-    </div>
     <div className="flex flex-row items-center justify-start space-x-4 w-3/4 shrink">
+      <div className="">
+        <Avatar size={36} name={data.item_id} variant="marble" />
+      </div>
       <Link href={data.given_url} className="w-full" target="_blank">
         <p className="text-base text-slate-800 truncate font-medium w-full">
           {data.given_title ||
