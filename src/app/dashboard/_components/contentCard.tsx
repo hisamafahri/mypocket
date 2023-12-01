@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { format } from "date-fns";
 import Avatar from "boring-avatars";
-import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { GetRecordResponseItem } from "../../../lib/schemas/api/retrieve";
 import { DATE_FORMAT } from "../../../lib/utils/constants/date";
 import { Icons } from "../../../components/ui/icons";
@@ -33,32 +32,20 @@ const getDateCreatedDisplay = (unixString: string) => {
 
 type ContentCardProps = {
   data: GetRecordResponseItem;
-  archival: "archive" | "restore";
+  page: "archive" | "list" | "favorite";
 };
 
-const ContentCard = ({ data, archival }: ContentCardProps) => {
-  const router = useRouter();
+const ContentCard = ({ data, page }: ContentCardProps) => {
+  const queryClient = useQueryClient();
   const postSendActionsMutation = useMutation({
     mutationKey: ["postSendActionsMutation"],
     mutationFn: async (body: SendActionsBody) => postSendActions({ body }),
     onSuccess: () => {
-      router.refresh();
+      queryClient.invalidateQueries({ queryKey: ["postGetRecordsQuery"] });
     },
   });
 
-  const postSendFavoriteActionsMutation = useMutation({
-    mutationKey: ["postSendFavoriteActionsMutation"],
-    mutationFn: async (body: SendActionsBody) => postSendActions({ body }),
-    onSuccess: () => {
-      router.refresh();
-    },
-  });
-
-  if (
-    postSendActionsMutation.isPending ||
-    postSendActionsMutation.isSuccess ||
-    postSendFavoriteActionsMutation.isPending
-  ) {
+  if (postSendActionsMutation.isPending || postSendActionsMutation.isSuccess) {
     return <Skeleton className="h-14" />;
   }
 
@@ -84,7 +71,7 @@ const ContentCard = ({ data, archival }: ContentCardProps) => {
           {getDateCreatedDisplay(data.time_added)}
         </p>
         <div className="hidden group-hover/main:flex space-x-2">
-          {archival === "restore" && (
+          {page === "archive" && (
             <Button
               variant="ghost"
               className="p-0 m-0 h-5 hover:bg-white group/action"
@@ -98,7 +85,7 @@ const ContentCard = ({ data, archival }: ContentCardProps) => {
               <Icons.ArchiveRestore className="w-4 h-4 text-slate-400 group-hover/action:stroke-slate-900" />
             </Button>
           )}
-          {archival === "archive" && (
+          {(page === "list" || page === "favorite") && (
             <Button
               variant="ghost"
               className="p-0 m-0 h-5 hover:bg-white group/action"
@@ -112,29 +99,27 @@ const ContentCard = ({ data, archival }: ContentCardProps) => {
               <Icons.Archive className="w-4 h-4 text-slate-400 group-hover/action:stroke-slate-900" />
             </Button>
           )}
-          {archival === "archive" && (
-            <Button
-              variant="ghost"
-              className="p-0 m-0 h-5 hover:bg-white group/action"
-              onClick={() =>
-                postSendFavoriteActionsMutation.mutate({
-                  consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
-                  actions: [
-                    {
-                      item_id: data.item_id,
-                      action: data.favorite === "0" ? "favorite" : "unfavorite",
-                    },
-                  ],
-                })
-              }
-            >
-              {data.favorite === "0" ? (
-                <Icons.Star className="w-4 h-4 text-slate-400 group-hover/action:stroke-yellow-500" />
-              ) : (
-                <Icons.StarOff className="w-4 h-4 text-yellow-500 group-hover/action:stroke-slate-400" />
-              )}
-            </Button>
-          )}
+          <Button
+            variant="ghost"
+            className="p-0 m-0 h-5 hover:bg-white group/action"
+            onClick={() =>
+              postSendActionsMutation.mutate({
+                consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
+                actions: [
+                  {
+                    item_id: data.item_id,
+                    action: data.favorite === "0" ? "favorite" : "unfavorite",
+                  },
+                ],
+              })
+            }
+          >
+            {data.favorite === "0" ? (
+              <Icons.Star className="w-4 h-4 text-slate-400 group-hover/action:stroke-yellow-500" />
+            ) : (
+              <Icons.StarOff className="w-4 h-4 text-yellow-500 group-hover/action:stroke-slate-400" />
+            )}
+          </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
