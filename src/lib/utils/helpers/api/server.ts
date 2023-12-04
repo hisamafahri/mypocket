@@ -12,7 +12,6 @@ export const apiServer = async <T>(opts: MethodsParams): Promise<T> => {
       "X-Accept": "application/json",
       Cookie: cookies().toString(),
     },
-    credentials: "include",
   };
   logger({ ...opts, timestamp: new Date() });
 
