@@ -5,6 +5,8 @@ import QueryProvider from "../lib/utils/providers/query";
 import { cn } from "../lib/utils/helpers";
 import { StateProvider } from "../lib/utils/providers/state";
 
+export const runtime = "edge";
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
