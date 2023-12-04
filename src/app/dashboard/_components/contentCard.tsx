@@ -1,9 +1,10 @@
-"use mutation";
+"use client";
 
 import Link from "next/link";
 import { format } from "date-fns";
 import Avatar from "boring-avatars";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { GetRecordResponseItem } from "../../../lib/schemas/api/retrieve";
 import { DATE_FORMAT } from "../../../lib/utils/constants/date";
 import { Icons } from "../../../components/ui/icons";
@@ -23,6 +24,8 @@ import {
   AlertDialogTrigger,
 } from "../../../components/ui/alert-dialog";
 import { cn } from "../../../lib/utils/helpers";
+import { setRecordsToLocalStorage } from "../../../lib/utils/helpers/localStorage";
+import { postGetRecords } from "../../../lib/services/api/retrieve/client";
 
 const getDateCreatedDisplay = (unixString: string) => {
   const date = new Date(parseInt(unixString, 10) * 1000);
@@ -36,12 +39,35 @@ type ContentCardProps = {
 };
 
 const ContentCard = ({ data, page }: ContentCardProps) => {
-  const queryClient = useQueryClient();
+  const router = useRouter();
+  const postGetRecordsMutation = useMutation({
+    mutationKey: ["postGetRecordsMutation"],
+    mutationFn: async () =>
+      postGetRecords({
+        body: {
+          consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
+          offset: "0",
+          count: "99999",
+          state: "all",
+          sort: "newest",
+          detailType: "simple",
+        },
+      }),
+    onSuccess: (res) => {
+      const result = Object.values(res.list).sort(
+        (a, b) => parseInt(b.time_added, 10) - parseInt(a.time_added, 10),
+      );
+
+      setRecordsToLocalStorage(result);
+      router.refresh();
+    },
+  });
+
   const postSendActionsMutation = useMutation({
     mutationKey: ["postSendActionsMutation"],
     mutationFn: async (body: SendActionsBody) => postSendActions({ body }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["postGetRecordsQuery"] });
+      postGetRecordsMutation.mutate();
     },
   });
 
@@ -75,12 +101,13 @@ const ContentCard = ({ data, page }: ContentCardProps) => {
             <Button
               variant="ghost"
               className="p-0 m-0 h-5 hover:bg-white group/action"
-              onClick={() =>
+              onClick={() => {
+                setRecordsToLocalStorage([]);
                 postSendActionsMutation.mutate({
                   consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                   actions: [{ item_id: data.item_id, action: "readd" }],
-                })
-              }
+                });
+              }}
             >
               <Icons.ArchiveRestore className="w-4 h-4 text-slate-400 group-hover/action:stroke-slate-900" />
             </Button>
@@ -89,12 +116,13 @@ const ContentCard = ({ data, page }: ContentCardProps) => {
             <Button
               variant="ghost"
               className="p-0 m-0 h-5 hover:bg-white group/action"
-              onClick={() =>
+              onClick={() => {
+                setRecordsToLocalStorage([]);
                 postSendActionsMutation.mutate({
                   consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                   actions: [{ item_id: data.item_id, action: "archive" }],
-                })
-              }
+                });
+              }}
             >
               <Icons.Archive className="w-4 h-4 text-slate-400 group-hover/action:stroke-slate-900" />
             </Button>
@@ -102,7 +130,8 @@ const ContentCard = ({ data, page }: ContentCardProps) => {
           <Button
             variant="ghost"
             className="p-0 m-0 h-5 hover:bg-white group/action"
-            onClick={() =>
+            onClick={() => {
+              setRecordsToLocalStorage([]);
               postSendActionsMutation.mutate({
                 consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                 actions: [
@@ -111,8 +140,8 @@ const ContentCard = ({ data, page }: ContentCardProps) => {
                     action: data.favorite === "0" ? "favorite" : "unfavorite",
                   },
                 ],
-              })
-            }
+              });
+            }}
           >
             {data.favorite === "0" ? (
               <Icons.Star className="w-4 h-4 text-slate-400 group-hover/action:stroke-yellow-500" />
@@ -141,12 +170,13 @@ const ContentCard = ({ data, page }: ContentCardProps) => {
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction
                   className={cn(buttonVariants({ variant: "destructive" }))}
-                  onClick={() =>
+                  onClick={() => {
+                    setRecordsToLocalStorage([]);
                     postSendActionsMutation.mutate({
                       consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                       actions: [{ item_id: data.item_id, action: "delete" }],
-                    })
-                  }
+                    });
+                  }}
                 >
                   Delete
                 </AlertDialogAction>
