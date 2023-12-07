@@ -20,7 +20,8 @@ export const GET = async (request: Request) => {
       redirect("/auth/sign-in");
     }
 
-    const hostUrl = new URL(process.env.NEXT_PUBLIC_APP_HOST || request.url);
+    const appHost = process.env.NEXT_PUBLIC_APP_HOST;
+    const hostUrl = new URL(appHost || request.url);
     const hostnameParts = hostUrl.hostname.split(".");
     const domain = hostnameParts.slice(-2).join(".");
     console.log(">>>", {
@@ -28,13 +29,15 @@ export const GET = async (request: Request) => {
       hostnameParts,
       hostUrl: JSON.stringify(hostUrl),
       host: process.env.NEXT_PUBLIC_APP_HOST || request.url,
+      newDomain:
+        appHost === "https://mypocket.hisam.dev" ? "pages.dev" : domain,
     });
 
     cookies().set({
       name: "access_token",
       value: token.access_token,
       path: "/",
-      domain,
+      domain: appHost === "https://mypocket.hisam.dev" ? "pages.dev" : domain,
       maxAge: hoursToSeconds(24 * 30),
       httpOnly: true,
     });
@@ -43,7 +46,7 @@ export const GET = async (request: Request) => {
       value: token.username,
       path: "/",
       maxAge: hoursToSeconds(24 * 30),
-      domain,
+      domain: appHost === "https://mypocket.hisam.dev" ? "pages.dev" : domain,
     });
 
     redirect("/dashboard");
