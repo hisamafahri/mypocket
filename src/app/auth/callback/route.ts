@@ -40,8 +40,8 @@ export const GET = async (request: Request) => {
       domain,
     });
 
-    redirect("/dashboard");
+    return redirect("/dashboard");
   } catch (e) {
-    redirect("/auth/sign-in");
+    return redirect("/auth/sign-in");
   }
 };
