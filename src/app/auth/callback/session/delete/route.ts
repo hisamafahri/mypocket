@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 export const GET = async (request: Request) => {
   const hostUrl = new URL(process.env.NEXT_PUBLIC_APP_HOST || request.url);
   const hostnameParts = hostUrl.hostname.split(".");
-  const domain = hostnameParts.slice(-2).join(".");
+  const domain = `.${hostnameParts.slice(-2).join(".")}`;
 
   cookies().delete({ name: "username", domain });
   cookies().delete({ name: "access_token", domain });
