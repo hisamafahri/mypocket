@@ -5,7 +5,9 @@ import buildUrl from "../../../lib/utils/helpers/url";
 
 const handler = async (request: Request) => {
   const origin = new URL(request.url);
-  const deploymentHost = new URL(process.env.NEXT_PUBLIC_APP_HOST);
+  const deploymentHost = new URL(
+    process.env.NEXT_PUBLIC_APP_HOST || "https://mypocket.hisam.dev",
+  );
 
   if (origin.host !== deploymentHost.host) {
     return new Response({
