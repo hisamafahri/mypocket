@@ -5,8 +5,17 @@ import buildUrl from "../../../lib/utils/helpers/url";
 
 const handler = async (request: Request) => {
   const origin = new URL(request.url);
+  const deploymentHost = new URL(process.env.NEXT_PUBLIC_APP_HOST);
+
+  if (origin.host !== deploymentHost.host) {
+    return new Response({
+      status: 401,
+    });
+  }
+
   const body = await request.json();
   const accessToken = cookies().get("access_token")?.value;
+
   const options: MethodsParams = {
     url: buildUrl({
       url: origin.pathname,
@@ -17,6 +26,7 @@ const handler = async (request: Request) => {
       body: JSON.stringify({
         ...body,
         access_token: accessToken,
+        consumer_key: process.env.CONSUMER_KEY || "",
       }),
     },
   };

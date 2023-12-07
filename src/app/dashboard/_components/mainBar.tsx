@@ -28,7 +28,6 @@ const MainBar = ({ page }: MainBarProps) => {
     mutationFn: async () =>
       postGetRecords({
         body: {
-          consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
           offset: "0",
           state: "all",
           count: "99999",

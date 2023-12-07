@@ -32,7 +32,6 @@ const SignInForm = () => {
         onClick={() =>
           postGetRequestTokenMutation.mutate({
             body: {
-              consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
               redirect_uri: `${process.env.NEXT_PUBLIC_APP_HOST}/auth/callback`,
             },
           })

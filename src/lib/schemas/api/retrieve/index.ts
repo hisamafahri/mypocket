@@ -28,7 +28,6 @@ const getRecordResponseItem = z.object({
 
 // POST /v3/get
 export const getRecordsBody = z.object({
-  consumer_key: z.string(),
   count: z.string().optional(),
   offset: z.string().optional(),
   favorite: z.number().optional(),

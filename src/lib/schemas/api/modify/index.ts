@@ -4,7 +4,6 @@ import { z } from "zod";
 
 // POST /v3/send
 export const sendActionsBody = z.object({
-  consumer_key: z.string(),
   actions: z.array(
     z.object({
       action: z.enum(["archive", "delete", "readd", "favorite", "unfavorite"]),

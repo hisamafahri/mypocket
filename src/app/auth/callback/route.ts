@@ -11,7 +11,6 @@ export const GET = async (request: Request) => {
   try {
     const token = await postGetAccessToken({
       body: {
-        consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
         code,
       },
     });
@@ -20,15 +19,16 @@ export const GET = async (request: Request) => {
       redirect("/auth/sign-in");
     }
 
-    const hostUrl = new URL(process.env.NEXT_PUBLIC_APP_HOST || request.url);
-    const hostnameParts = hostUrl.hostname.split(".");
-    const domain = `.${hostnameParts.slice(-2).join(".")}`;
+    // TODO: cookie's domain on Cloudflare Functions
+    // const hostUrl = new URL(process.env.NEXT_PUBLIC_APP_HOST || request.url);
+    // const hostnameParts = hostUrl.hostname.split(".");
+    // const domain = `.${hostnameParts.slice(-2).join(".")}`;
 
     cookies().set({
       name: "access_token",
       value: token.access_token,
       path: "/",
-      domain,
+      // domain,
       maxAge: hoursToSeconds(24 * 30),
       httpOnly: true,
     });
@@ -37,7 +37,7 @@ export const GET = async (request: Request) => {
       value: token.username,
       path: "/",
       maxAge: hoursToSeconds(24 * 30),
-      domain,
+      // domain,
     });
 
     return redirect("/dashboard");

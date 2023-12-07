@@ -45,7 +45,6 @@ const ContentCard = ({ data, page }: ContentCardProps) => {
     mutationFn: async () =>
       postGetRecords({
         body: {
-          consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
           offset: "0",
           count: "99999",
           state: "all",
@@ -104,7 +103,6 @@ const ContentCard = ({ data, page }: ContentCardProps) => {
               onClick={() => {
                 setRecordsToLocalStorage([]);
                 postSendActionsMutation.mutate({
-                  consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                   actions: [{ item_id: data.item_id, action: "readd" }],
                 });
               }}
@@ -119,7 +117,6 @@ const ContentCard = ({ data, page }: ContentCardProps) => {
               onClick={() => {
                 setRecordsToLocalStorage([]);
                 postSendActionsMutation.mutate({
-                  consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                   actions: [{ item_id: data.item_id, action: "archive" }],
                 });
               }}
@@ -133,7 +130,6 @@ const ContentCard = ({ data, page }: ContentCardProps) => {
             onClick={() => {
               setRecordsToLocalStorage([]);
               postSendActionsMutation.mutate({
-                consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                 actions: [
                   {
                     item_id: data.item_id,
@@ -173,7 +169,6 @@ const ContentCard = ({ data, page }: ContentCardProps) => {
                   onClick={() => {
                     setRecordsToLocalStorage([]);
                     postSendActionsMutation.mutate({
-                      consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY || "",
                       actions: [{ item_id: data.item_id, action: "delete" }],
                     });
                   }}
