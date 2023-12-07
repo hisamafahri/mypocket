@@ -23,6 +23,12 @@ export const GET = async (request: Request) => {
     const hostUrl = new URL(process.env.NEXT_PUBLIC_APP_HOST || request.url);
     const hostnameParts = hostUrl.hostname.split(".");
     const domain = hostnameParts.slice(-2).join(".");
+    console.log(">>>", {
+      domain,
+      hostnameParts,
+      hostUrl: JSON.stringify(hostUrl),
+      host: process.env.NEXT_PUBLIC_APP_HOST || request.url,
+    });
 
     cookies().set({
       name: "access_token",
