@@ -10,7 +10,7 @@ const handler = async (request: Request) => {
   );
 
   if (origin.host !== deploymentHost.host) {
-    return new Response({
+    return new Response("401 Unauthorized", {
       status: 401,
     });
   }
