@@ -31,12 +31,14 @@ export const GET = async (request: Request) => {
       // domain,
       maxAge: hoursToSeconds(24 * 30),
       httpOnly: true,
+      sameSite: "strict",
     });
     cookies().set({
       name: "username",
       value: token.username,
       path: "/",
       maxAge: hoursToSeconds(24 * 30),
+      sameSite: "strict",
       // domain,
     });
 
