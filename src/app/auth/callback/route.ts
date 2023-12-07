@@ -19,8 +19,10 @@ export const GET = async (request: Request) => {
     if (!token || !token.access_token || !token.username) {
       redirect("/auth/sign-in");
     }
-    const domain = new URL(process.env.NEXT_PUBLIC_APP_HOST || request.url)
-      .hostname;
+
+    const hostUrl = new URL(process.env.NEXT_PUBLIC_APP_HOST || request.url);
+    const hostnameParts = hostUrl.hostname.split(".");
+    const domain = hostnameParts.slice(-2).join(".");
 
     cookies().set({
       name: "access_token",

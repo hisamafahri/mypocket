@@ -11,7 +11,6 @@ type RecordsListProps = {
 };
 
 const RecordsList = ({ page }: RecordsListProps) => {
-  // TODO: filter based on page
   const data = getRecordsFromLocalStorage().filter((record) => {
     if (page === "favorite") {
       return record.favorite === "1" && record.status === "0"
