@@ -8,5 +8,5 @@ export const GET = async () => {
   cookies().delete({ name: "access_token", domain: `.${DOMAINS.PRIMARY}` });
 
   // URL to redirect to after sign in process completes
-  return redirect("/auth/sign-in");
+  redirect("/auth/sign-in");
 };
