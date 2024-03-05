@@ -3,11 +3,11 @@ import {
   GetAccessTokenResponse,
 } from "../../../schemas/api/authorization";
 import { FetchMethods, MethodsParams } from "../../../utils/helpers/api";
-import { apiServer } from "../../../utils/helpers/api/server";
+import { apiServerNoErrorCheck } from "../../../utils/helpers/api/server";
 import buildUrl from "../../../utils/helpers/url";
 
 // eslint-disable-next-line import/prefer-default-export
-export const postGetAccessToken = async (opts: {
+export const postGetAccessTokenNoErrorCheck = async (opts: {
   body: GetAccessTokenBody;
 }): Promise<GetAccessTokenResponse> => {
   const request: MethodsParams = {
@@ -20,5 +20,5 @@ export const postGetAccessToken = async (opts: {
     },
   };
 
-  return apiServer<GetAccessTokenResponse>(request);
+  return apiServerNoErrorCheck<GetAccessTokenResponse>(request);
 };

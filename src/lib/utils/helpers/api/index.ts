@@ -25,3 +25,9 @@ export const handleResponse = async (response: Response) => {
 
   return response.json();
 };
+
+export const handleResponseNoErrorCheck = async (response: Response) => {
+  const result = await response.json();
+
+  return result;
+};
