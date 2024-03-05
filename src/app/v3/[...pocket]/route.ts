@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { FetchMethods, MethodsParams } from "../../../lib/utils/helpers/api";
 import { apiServer } from "../../../lib/utils/helpers/api/server";
 import buildUrl from "../../../lib/utils/helpers/url";
+import { DOMAINS } from "../../../lib/utils/constants";
 
 const handler = async (request: Request) => {
   const origin = new URL(request.url);
@@ -9,10 +10,12 @@ const handler = async (request: Request) => {
     process.env.NEXT_PUBLIC_APP_HOST || "https://mypocket.hisam.dev",
   );
 
-  if (origin.host !== deploymentHost.host) {
-    return new Response("401 Unauthorized", {
-      status: 401,
-    });
+  if (deploymentHost.host !== DOMAINS.TUNNEL) {
+    if (origin.host !== deploymentHost.host) {
+      return new Response("401 Unauthorized", {
+        status: 401,
+      });
+    }
   }
 
   const body = await request.json();
@@ -34,9 +37,9 @@ const handler = async (request: Request) => {
   };
 
   try {
-    const resp = await apiServer(options);
+    const resp = (await apiServer(options)) as { code: string };
 
-    return Response.json(resp);
+    return Response.json(resp, { status: 200 });
   } catch (e) {
     const value = (e as Error).toString() as string;
     return Response.json(

@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { hoursToSeconds } from "date-fns";
 import { postGetAccessToken } from "../../../lib/services/api/authorization/server";
-import { DUMMY_VALUES } from "../../../lib/utils/constants";
+import { DOMAINS, DUMMY_VALUES } from "../../../lib/utils/constants";
 
 // eslint-disable-next-line import/prefer-default-export
 export const GET = async (request: Request) => {
@@ -26,7 +26,7 @@ export const GET = async (request: Request) => {
       maxAge: hoursToSeconds(24 * 30),
       httpOnly: true,
       sameSite: "strict",
-      // domain: ".hisam.dev",
+      domain: `.${DOMAINS.PRIMARY}`,
     });
     cookies().set({
       name: "username",
@@ -34,11 +34,13 @@ export const GET = async (request: Request) => {
       path: "/",
       maxAge: hoursToSeconds(24 * 30),
       sameSite: "strict",
-      // domain: ".hisam.dev",
+      domain: `.${DOMAINS.PRIMARY}`,
     });
 
-    return redirect("/dashboard");
+    redirect("/dashboard");
   } catch (e) {
-    return redirect("/auth/sign-in");
+    cookies().delete({ name: "access_token", domain: `.${DOMAINS.PRIMARY}` });
+    cookies().delete({ name: "username", domain: `.${DOMAINS.PRIMARY}` });
+    redirect("/auth/sign-in");
   }
 };

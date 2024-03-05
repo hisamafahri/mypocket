@@ -7,7 +7,7 @@ const DashboardTemplate = async ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { accessToken } = await getSession();
+  const { accessToken } = getSession();
   if (!accessToken) {
     redirect("/auth/sign-in");
   }
