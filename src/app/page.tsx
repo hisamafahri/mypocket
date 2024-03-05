@@ -1,8 +1,8 @@
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getSession } from "../lib/utils/helpers/session";
 
 const Home = async () => {
-  const { accessToken } = getSession();
+  const accessToken = cookies().get("access_token")?.value;
   if (!accessToken) {
     redirect("/auth/sign-in");
   } else {

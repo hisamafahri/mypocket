@@ -1,16 +1,16 @@
 /* NOTE: Design inspiration: https://bmrks.com */
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import SignInForm from "./_components/signInForm";
 import { cn } from "../../../lib/utils/helpers";
 import { buttonVariants } from "../../../components/ui/button";
 import { Separator } from "../../../components/ui/separator";
 import pkg from "../../../../package.json";
-import { getSession } from "../../../lib/utils/helpers/session";
 
 const SignIn = async () => {
-  const { accessToken, username } = getSession();
-  if (accessToken && username) {
+  const accessToken = cookies().get("access_token")?.value;
+  if (accessToken) {
     redirect("/dashboard");
   }
 

@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { hoursToSeconds } from "date-fns";
-import { DOMAINS, DUMMY_VALUES } from "../../../lib/utils/constants";
+import { DUMMY_VALUES } from "../../../lib/utils/constants";
 import { postGetAccessTokenNoErrorCheck } from "../../../lib/services/api/authorization/server";
 
 // eslint-disable-next-line import/prefer-default-export
@@ -16,7 +15,9 @@ export const GET = async (request: Request) => {
     });
 
     if (!token || !token.access_token || !token.username) {
-      redirect("/auth/sign-in");
+      return Response.json({
+        error: `missing token data: ${JSON.stringify(token)}`,
+      });
     }
 
     cookies().set({
@@ -26,7 +27,6 @@ export const GET = async (request: Request) => {
       maxAge: hoursToSeconds(24 * 30),
       httpOnly: true,
       sameSite: "strict",
-      domain: `.${DOMAINS.PRIMARY}`,
     });
     cookies().set({
       name: "username",
@@ -34,13 +34,15 @@ export const GET = async (request: Request) => {
       path: "/",
       maxAge: hoursToSeconds(24 * 30),
       sameSite: "strict",
-      domain: `.${DOMAINS.PRIMARY}`,
     });
-
-    redirect("/dashboard");
+    return Response.json({
+      success: `visit ${process.env.NEXT_PUBLIC_APP_HOST}/dashboard`,
+    });
   } catch (e) {
-    cookies().delete({ name: "access_token", domain: `.${DOMAINS.PRIMARY}` });
-    cookies().delete({ name: "username", domain: `.${DOMAINS.PRIMARY}` });
-    redirect("/auth/sign-in");
+    // eslint-disable-next-line no-console
+    console.error(e);
+    cookies().delete({ name: "access_token" });
+    cookies().delete({ name: "username" });
+    return Response.json({ error: `something went wrong: ${e}` });
   }
 };
