@@ -19,19 +19,14 @@ export const GET = async (request: Request) => {
       redirect("/auth/sign-in");
     }
 
-    // TODO: cookie's domain on Cloudflare Functions
-    // const hostUrl = new URL(process.env.NEXT_PUBLIC_APP_HOST || request.url);
-    // const hostnameParts = hostUrl.hostname.split(".");
-    // const domain = `.${hostnameParts.slice(-2).join(".")}`;
-
     cookies().set({
       name: "access_token",
       value: token.access_token,
       path: "/",
-      // domain,
       maxAge: hoursToSeconds(24 * 30),
       httpOnly: true,
       sameSite: "strict",
+      // domain: ".hisam.dev",
     });
     cookies().set({
       name: "username",
@@ -39,7 +34,7 @@ export const GET = async (request: Request) => {
       path: "/",
       maxAge: hoursToSeconds(24 * 30),
       sameSite: "strict",
-      // domain,
+      // domain: ".hisam.dev",
     });
 
     return redirect("/dashboard");

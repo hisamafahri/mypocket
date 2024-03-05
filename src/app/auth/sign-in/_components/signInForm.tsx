@@ -16,9 +16,11 @@ const SignInForm = () => {
     mutationFn: async (opts: { body: GetRequestTokenBody }) =>
       postGetRequestToken({ body: opts.body }),
     onSuccess: (data) => {
-      const endpoint = `${process.env.NEXT_PUBLIC_POCKET_API_BASE_URL
-        }/auth/authorize?request_token=${data.code
-        }&redirect_uri=${`${process.env.NEXT_PUBLIC_APP_HOST}/auth/callback?request_token=${data.code}`}`;
+      const endpoint = `${
+        process.env.NEXT_PUBLIC_POCKET_API_BASE_URL
+      }/auth/authorize?request_token=${
+        data.code
+      }&redirect_uri=${`${process.env.NEXT_PUBLIC_APP_HOST}/auth/callback?request_token=${data.code}`}`;
       router.push(endpoint);
     },
   });
@@ -27,8 +29,10 @@ const SignInForm = () => {
     <div>
       <Button
         variant="secondary"
-        disabled={postGetRequestTokenMutation.isPending ||
-          postGetRequestTokenMutation.isSuccess}
+        disabled={
+          postGetRequestTokenMutation.isPending ||
+          postGetRequestTokenMutation.isSuccess
+        }
         onClick={() =>
           postGetRequestTokenMutation.mutate({
             body: {
@@ -40,8 +44,8 @@ const SignInForm = () => {
         Sign In
         {(postGetRequestTokenMutation.isPending ||
           postGetRequestTokenMutation.isSuccess) && (
-            <Icons.Spinner className="ml-2 h-4 w-4 animate-spin" />
-          )}
+          <Icons.Spinner className="ml-2 h-4 w-4 animate-spin" />
+        )}
       </Button>
     </div>
   );
