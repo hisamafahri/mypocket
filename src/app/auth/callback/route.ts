@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { hoursToSeconds } from "date-fns";
-import { DUMMY_VALUES } from "../../../lib/utils/constants";
+import { DOMAINS, DUMMY_VALUES } from "../../../lib/utils/constants";
 import { postGetAccessTokenNoErrorCheck } from "../../../lib/services/api/authorization/server";
 
 // eslint-disable-next-line import/prefer-default-export
@@ -27,6 +27,7 @@ export const GET = async (request: Request) => {
       maxAge: hoursToSeconds(24 * 30),
       httpOnly: true,
       sameSite: "strict",
+      domain: `.${DOMAINS.PRIMARY}`,
     });
     cookies().set({
       name: "username",
@@ -34,6 +35,7 @@ export const GET = async (request: Request) => {
       path: "/",
       maxAge: hoursToSeconds(24 * 30),
       sameSite: "strict",
+      domain: `.${DOMAINS.PRIMARY}`,
     });
     return Response.json({
       success: `visit ${process.env.NEXT_PUBLIC_APP_HOST}/dashboard`,
@@ -41,8 +43,8 @@ export const GET = async (request: Request) => {
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e);
-    cookies().delete({ name: "access_token" });
-    cookies().delete({ name: "username" });
+    cookies().delete({ name: "access_token", domain: `.${DOMAINS.PRIMARY}` });
+    cookies().delete({ name: "username", domain: `.${DOMAINS.PRIMARY}` });
     return Response.json({ error: `something went wrong: ${e}` });
   }
 };
