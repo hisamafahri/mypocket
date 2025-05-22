@@ -1,3 +1,6 @@
+> [!WARNING]
+> Following the [recent announcement of Pocket's shutdown](https://support.mozilla.org/en-US/kb/future-of-pocket) and Pocket’s API will no longer be able to work, this project unfortunately needs to be shut down for good. I recommend using [Raindrop.io](https://raindrop.io/) or similar tools.
+
 # MyPocket: Pocket but Better
 
 ## The (super-quick) story
